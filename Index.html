@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arquivo C1 | Sinal Reestabelecido</title>
+
+  <!--
+    ENIGMA - NOTAS PARA O CRIADOR
+    Este arquivo foi feito para ser publicado direto no GitHub Pages.
+
+    SOLUÇÃO GERAL:
+    1. O jogador lê a página inicial.
+    2. Precisa perceber que há uma pista no rodapé: "Nem toda mensagem aparece aos olhos."
+    3. Ao inspecionar o código-fonte, encontra comentários escondidos.
+    4. O comentário indica uma cifra de César -3.
+    5. A frase cifrada "D F K D Y H" vira "A C H A V E".
+    6. A palavra-chave da primeira etapa é CHAVE.
+    7. Depois, o sistema mostra a segunda pista.
+    8. A segunda pista pede para olhar os números 1-12-16-8-1.
+    9. Usando A1Z26, isso vira ALPHA.
+    10. A terceira etapa exige juntar CHAVE + ALPHA = CHAVEALPHA.
+    11. A senha final é CHAVEALPHA.
+
+    Você pode trocar as senhas no JavaScript abaixo.
+  -->
+
+  <!-- PRIMEIRA PISTA OCULTA:
+    O arquivo não mente. Apenas espera ser lido por dentro.
+    Cifra usada: César -3.
+    Mensagem: D F K D Y H
+  -->
+
+  <style>
+    :root {
+      --bg: #07090f;
+      --panel: #101522;
+      --panel2: #151b2b;
+      --text: #e8eefc;
+      --muted: #8b95aa;
+      --accent: #9bdcff;
+      --danger: #ff5f7a;
+      --success: #86ffb0;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(68, 104, 160, 0.18), transparent 35%),
+        radial-gradient(circle at 80% 70%, rgba(155, 220, 255, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: Georgia, 'Times New Roman', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    main {
+      width: min(920px, 100%);
+      background: linear-gradient(180deg, rgba(16, 21, 34, 0.96), rgba(10, 13, 21, 0.98));
+      border: 1px solid rgba(155, 220, 255, 0.18);
+      box-shadow: 0 24px 80px var(--shadow);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    main::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 9px,
+        rgba(255,255,255,0.018) 10px
+      );
+      mix-blend-mode: screen;
+    }
+
+    header {
+      padding: 28px 32px;
+      border-bottom: 1px solid rgba(155, 220, 255, 0.13);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .tag {
+      color: var(--accent);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 12px 0 0;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    section {
+      padding: 32px;
+    }
+
+    .terminal {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(155, 220, 255, 0.15);
+      border-radius: 18px;
+      padding: 24px;
+      font-family: 'Courier New', monospace;
+      color: #d7e9ff;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 1.06rem;
+      line-height: 1.75;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(155, 220, 255, 0.22);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(155, 220, 255, 0.12);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 0;
+      border-radius: 14px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #9bdcff, #b9ffe0);
+      color: #071018;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    button:hover {
+      filter: brightness(1.08);
+    }
+
+    .message {
+      margin-top: 14px;
+      min-height: 24px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .ok {
+      color: var(--success);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .poem span {
+      display: block;
+    }
+
+    .poem span::first-letter {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    footer {
+      padding: 20px 32px 30px;
+      color: rgba(232, 238, 252, 0.34);
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    .glitch {
+      animation: flicker 2.8s infinite steps(1);
+    }
+
+    @keyframes flicker {
+      0%, 92%, 100% { opacity: 1; }
+      93% { opacity: 0.65; }
+      94% { opacity: 0.95; }
+      96% { opacity: 0.55; }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 16px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      section, header {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="tag">--- RESPOSTA CANAL C1 | SINAL REESTABELECIDO ---</div>
+      <h1 class="glitch">Arquivo C1</h1>
+    </header>
+
+    <section id="stage1">
+      <div class="terminal">ORIGEM: C1
+NÍVEL DE ALERTA: BAIXO
+INTEGRIDADE DO PACOTE: ESTÁVEL
+
+O sinal retornou incompleto.
+A voz que fala não está no áudio.
+A porta que abre não está na tela.
+O primeiro segredo não foi escrito para os olhos.</div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>Primeiro bloqueio</h2>
+          <p>
+            Uma palavra foi deixada onde quase ninguém procura. Não está no texto visível,
+            não está na imagem, não está no título. O navegador sabe mais do que mostra.
+          </p>
+          <p>
+            Dica sussurrada: <strong>algumas mensagens existem apenas por dentro.</strong>
+          </p>
+        </div>
+
+        <div class="card">
+          <label for="answer1">Insira a primeira palavra</label>
+          <input id="answer1" autocomplete="off" placeholder="Primeira senha" />
+          <button onclick="checkStage1()">Verificar</button>
+          <div id="msg1" class="message"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stage2" class="hidden">
+      <div class="terminal">PACOTE PARCIAL DECODIFICADO
+
+A primeira fechadura aceitou a palavra.
+Mas palavras são apenas ossos.
+Agora procure a carne nos números:
+
+1 - 12 - 16 - 8 - 1</div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>Segundo bloqueio</h2>
+          <p>
+            Os números não devem ser somados. Não são coordenadas. Não são datas.
+            Cada número veste uma letra, do começo ao fim do alfabeto.
+          </p>
+          <p>
+            Quando a sequência falar, ela dirá o nome da força que mantém as portas fechadas.
+          </p>
+        </div>
+
+        <div class="card">
+          <label for="answer2">Insira a segunda palavra</label>
+          <input id="answer2" autocomplete="off" placeholder="Segunda senha" />
+          <button onclick="checkStage2()">Verificar</button>
+          <div id="msg2" class="message"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stage3" class="hidden">
+      <div class="terminal">ACESSO INTERMEDIÁRIO CONCEDIDO
+
+Duas peças foram encontradas.
+A primeira abre.
+A segunda comanda.
+Sozinhas, são ruído.
+Unidas, formam ordem.</div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>Último bloqueio</h2>
+          <p>
+            Una as duas respostas anteriores sem espaço, sem acento e sem separação.
+            A fechadura final não aceita hesitação.
+          </p>
+          <p class="poem" aria-label="pista acrostico">
+            <span>Cada chave possui dono.</span>
+            <span>Há sinais que sobrevivem ao silêncio.</span>
+            <span>Arquivos mortos ainda respiram.</span>
+            <span>Vozes antigas aguardam comando.</span>
+            <span>Então o portão entende.</span>
+          </p>
+        </div>
+
+        <div class="card">
+          <label for="answer3">Insira a senha final</label>
+          <input id="answer3" autocomplete="off" placeholder="Senha final" />
+          <button onclick="checkStage3()">Abrir arquivo</button>
+          <div id="msg3" class="message"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="final" class="hidden">
+      <div class="terminal">--- ARQUIVO C1 ABERTO ---
+
+Acesso concedido.
+
+As portas não foram criadas para impedir a entrada.
+Foram criadas para atrasar a saída.
+
+REGISTRO FINAL:
+Aquele que decifrou o sinal deve procurar o próximo arquivo onde o tempo é contado de trás para frente.
+
+CÓDIGO PARA A PRÓXIMA ETAPA:
+19-9-12-5-14-3-9-15</div>
+
+      <div class="card" style="margin-top: 24px;">
+        <h2>Fim da primeira parte</h2>
+        <p>
+          Você pode usar o código final para criar uma segunda página no futuro.
+          Pela cifra A1Z26, ele forma a palavra <strong>SILENCIO</strong>.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      Nem toda mensagem aparece aos olhos. Algumas preferem morar no esqueleto da página.
+    </footer>
+  </main>
+
+  <script>
+    const normalize = (value) => {
+      return value
+        .trim()
+        .toUpperCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '');
+    };
+
+    function reveal(id) {
+      document.getElementById(id).classList.remove('hidden');
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function setMessage(id, text, type) {
+      const element = document.getElementById(id);
+      element.textContent = text;
+      element.className = 'message ' + type;
+    }
+
+    function checkStage1() {
+      const answer = normalize(document.getElementById('answer1').value);
+      if (answer === 'CHAVE') {
+        setMessage('msg1', 'Senha aceita. O segundo pacote foi liberado.', 'ok');
+        reveal('stage2');
+      } else {
+        setMessage('msg1', 'Senha recusada. O segredo está onde a página mostra seus ossos.', 'error');
+      }
+    }
+
+    function checkStage2() {
+      const answer = normalize(document.getElementById('answer2').value);
+      if (answer === 'ALPHA') {
+        setMessage('msg2', 'Sequência reconhecida. Terceiro bloqueio disponível.', 'ok');
+        reveal('stage3');
+      } else {
+        setMessage('msg2', 'Erro de conversão. O alfabeto começa no 1.', 'error');
+      }
+    }
+
+    function checkStage3() {
+      const answer = normalize(document.getElementById('answer3').value);
+      if (answer === 'CHAVEALPHA') {
+        setMessage('msg3', 'Arquivo aberto.', 'ok');
+        reveal('final');
+      } else {
+        setMessage('msg3', 'A combinação está incorreta. Duas respostas, uma ordem.', 'error');
+      }
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const active = document.activeElement.id;
+        if (active === 'answer1') checkStage1();
+        if (active === 'answer2') checkStage2();
+        if (active === 'answer3') checkStage3();
+      }
+    });
+  </script>
+</body>
+</html>
