@@ -3,437 +3,701 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arquivo C1 | Sinal Reestabelecido</title>
-
-  <!--
-    ENIGMA - NOTAS PARA O CRIADOR
-    Este arquivo foi feito para ser publicado direto no GitHub Pages.
-
-    SOLUÇÃO GERAL:
-    1. O jogador lê a página inicial.
-    2. Precisa perceber que há uma pista no rodapé: "Nem toda mensagem aparece aos olhos."
-    3. Ao inspecionar o código-fonte, encontra comentários escondidos.
-    4. O comentário indica uma cifra de César -3.
-    5. A frase cifrada "D F K D Y H" vira "A C H A V E".
-    6. A palavra-chave da primeira etapa é CHAVE.
-    7. Depois, o sistema mostra a segunda pista.
-    8. A segunda pista pede para olhar os números 1-12-16-8-1.
-    9. Usando A1Z26, isso vira ALPHA.
-    10. A terceira etapa exige juntar CHAVE + ALPHA = CHAVEALPHA.
-    11. A senha final é CHAVEALPHA.
-
-    Você pode trocar as senhas no JavaScript abaixo.
-  -->
-
-  <!-- PRIMEIRA PISTA OCULTA:
-    O arquivo não mente. Apenas espera ser lido por dentro.
-    Cifra usada: César -3.
-    Mensagem: D F K D Y H
-  -->
-
+  <title>P-Experiments | Arquivo 00</title>
   <style>
     :root {
-      --bg: #07090f;
-      --panel: #101522;
-      --panel2: #151b2b;
-      --text: #e8eefc;
-      --muted: #8b95aa;
-      --accent: #9bdcff;
-      --danger: #ff5f7a;
-      --success: #86ffb0;
-      --shadow: rgba(0, 0, 0, 0.35);
+      --bg: #020308;
+      --bg2: #070914;
+      --panel: #10070a;
+      --panel2: #130b12;
+      --text: #f4e8ea;
+      --muted: #a68b91;
+      --red: #ff284f;
+      --red2: #9d1029;
+      --blueblack: #05091a;
+      --ok: #76ffb1;
+      --warn: #ffd166;
+      --line: rgba(255, 40, 79, 0.24);
+      --shadow: rgba(0, 0, 0, 0.65);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 20% 20%, rgba(68, 104, 160, 0.18), transparent 35%),
-        radial-gradient(circle at 80% 70%, rgba(155, 220, 255, 0.08), transparent 30%),
-        var(--bg);
+        radial-gradient(circle at 20% 18%, rgba(255, 40, 79, 0.18), transparent 34%),
+        radial-gradient(circle at 82% 72%, rgba(10, 22, 60, 0.6), transparent 38%),
+        repeating-linear-gradient(to bottom, transparent 0 8px, rgba(255,255,255,0.018) 9px),
+        linear-gradient(180deg, var(--bg), var(--bg2));
       color: var(--text);
       font-family: Georgia, 'Times New Roman', serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px;
+      padding: 28px;
     }
 
     main {
-      width: min(920px, 100%);
-      background: linear-gradient(180deg, rgba(16, 21, 34, 0.96), rgba(10, 13, 21, 0.98));
-      border: 1px solid rgba(155, 220, 255, 0.18);
-      box-shadow: 0 24px 80px var(--shadow);
-      border-radius: 24px;
+      width: min(1080px, 100%);
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(12, 4, 8, 0.98), rgba(3, 5, 14, 0.99));
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: 0 24px 90px var(--shadow), 0 0 60px rgba(255, 40, 79, 0.08);
       overflow: hidden;
-      position: relative;
-    }
-
-    main::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 9px,
-        rgba(255,255,255,0.018) 10px
-      );
-      mix-blend-mode: screen;
     }
 
     header {
       padding: 28px 32px;
-      border-bottom: 1px solid rgba(155, 220, 255, 0.13);
-      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(255, 40, 79, 0.08), rgba(4, 8, 24, 0.48));
     }
 
     .tag {
-      color: var(--accent);
+      color: var(--red);
       font-family: 'Courier New', monospace;
-      letter-spacing: 0.08em;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
     h1 {
       margin: 12px 0 0;
-      font-size: clamp(2rem, 5vw, 4rem);
-      line-height: 1;
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      line-height: 0.95;
       font-weight: 500;
+      color: #fff4f6;
+      text-shadow: 0 0 20px rgba(255, 40, 79, 0.24);
     }
+
+    h2 { margin-top: 0; }
 
     section {
       padding: 32px;
+      border-bottom: 1px solid rgba(255, 40, 79, 0.10);
     }
 
+    .hidden { display: none; }
+
     .terminal {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(155, 220, 255, 0.15);
+      background: rgba(0,0,0,0.48);
+      border: 1px solid rgba(255, 40, 79, 0.22);
       border-radius: 18px;
-      padding: 24px;
+      padding: 22px;
       font-family: 'Courier New', monospace;
-      color: #d7e9ff;
-      line-height: 1.7;
+      line-height: 1.65;
       white-space: pre-wrap;
+      color: #ffe5ea;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 24px;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 22px;
       margin-top: 24px;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(5,9,26,0.23));
+      border: 1px solid rgba(255, 40, 79, 0.16);
       border-radius: 18px;
       padding: 22px;
     }
 
     p {
       color: var(--muted);
-      font-size: 1.06rem;
+      font-size: 1.04rem;
       line-height: 1.75;
     }
 
-    label {
-      display: block;
-      margin-bottom: 10px;
-      color: var(--accent);
-      font-family: 'Courier New', monospace;
-      font-size: 0.88rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 16px;
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      transition: transform .15s, filter .15s;
+      box-shadow: 0 0 22px rgba(255, 40, 79, 0.16);
     }
+
+    button:hover { filter: brightness(1.12); transform: translateY(-1px); }
 
     input {
       width: 100%;
-      padding: 14px 16px;
       border-radius: 14px;
-      border: 1px solid rgba(155, 220, 255, 0.22);
-      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 40, 79, 0.26);
+      background: rgba(0,0,0,0.45);
       color: var(--text);
+      padding: 14px 16px;
       font-size: 1rem;
       outline: none;
+      margin-top: 12px;
+      font-family: 'Courier New', monospace;
     }
 
     input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(155, 220, 255, 0.12);
-    }
-
-    button {
-      width: 100%;
-      margin-top: 14px;
-      padding: 14px 16px;
-      border: 0;
-      border-radius: 14px;
-      cursor: pointer;
-      background: linear-gradient(135deg, #9bdcff, #b9ffe0);
-      color: #071018;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    button:hover {
-      filter: brightness(1.08);
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(255,40,79,.13);
     }
 
     .message {
       margin-top: 14px;
       min-height: 24px;
       font-family: 'Courier New', monospace;
-      font-size: 0.95rem;
+      font-size: .95rem;
     }
 
-    .error {
-      color: var(--danger);
+    .error { color: var(--red); }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+
+    .timer {
+      font-family: 'Courier New', monospace;
+      color: var(--warn);
+      font-size: 1.35rem;
+      margin-bottom: 14px;
     }
 
-    .ok {
-      color: var(--success);
+    .flash-word {
+      min-height: 88px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(0,0,0,.52);
+      border: 1px solid rgba(255,40,79,.24);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(1.6rem, 4vw, 3.4rem);
+      letter-spacing: .07em;
+      color: #fff1f4;
+      text-align: center;
+      margin: 18px 0;
+      text-shadow: 0 0 20px rgba(255,40,79,.34);
     }
 
-    .hidden {
-      display: none;
+    .progress-line {
+      height: 10px;
+      background: rgba(255,255,255,.08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 18px;
     }
 
-    .poem span {
-      display: block;
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red2), var(--red));
+      transition: width .25s;
     }
 
-    .poem span::first-letter {
-      color: var(--accent);
-      font-weight: bold;
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(14, 1fr);
+      gap: 6px;
+      user-select: none;
+      touch-action: none;
     }
 
-    footer {
-      padding: 20px 32px 30px;
-      color: rgba(232, 238, 252, 0.34);
-      font-size: 0.85rem;
+    .cell {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.08);
+      font-family: 'Courier New', monospace;
+      font-weight: 800;
+      color: #ffe5ea;
+      cursor: pointer;
+    }
+
+    .cell.selected { background: rgba(255,40,79,.26); border-color: var(--red); }
+    .cell.found { background: rgba(118,255,177,.13); border-color: var(--ok); color: var(--ok); }
+
+    .targets {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
       font-family: 'Courier New', monospace;
     }
 
-    .glitch {
-      animation: flicker 2.8s infinite steps(1);
+    .target.done { color: var(--ok); text-decoration: line-through; }
+
+    .safe-wrap {
+      display: grid;
+      place-items: center;
+      gap: 20px;
     }
+
+    .dial-area {
+      position: relative;
+      width: min(360px, 78vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle, #2a080f 0 21%, #15040a 22% 37%, #040714 38% 62%, #26101a 63% 100%);
+      border: 2px solid rgba(255,40,79,.32);
+      box-shadow: inset 0 0 35px rgba(0,0,0,.75), 0 20px 60px rgba(0,0,0,.45);
+      cursor: grab;
+      transform: rotate(0deg);
+    }
+
+    .dial-area:active { cursor: grabbing; }
+
+    .dial-area::before {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 32px;
+      background: var(--red);
+      top: 14px;
+      left: calc(50% - 5px);
+      border-radius: 99px;
+      box-shadow: 0 0 18px rgba(255,40,79,.70);
+    }
+
+    .dial-center {
+      width: 38%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, #151827, #03040a);
+      border: 1px solid rgba(255,255,255,.16);
+      display: grid;
+      place-items: center;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(1.4rem, 5vw, 2.5rem);
+      color: #fff1f4;
+      transform: rotate(var(--counter-rotation, 0deg));
+    }
+
+    .safe-info {
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .safe-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .final-title {
+      color: var(--red);
+      letter-spacing: .06em;
+    }
+
+    .glitch { animation: flicker 3.2s infinite steps(1); }
 
     @keyframes flicker {
-      0%, 92%, 100% { opacity: 1; }
-      93% { opacity: 0.65; }
-      94% { opacity: 0.95; }
-      96% { opacity: 0.55; }
+      0%, 92%, 100% { opacity: 1; transform: translateX(0); }
+      93% { opacity: .72; transform: translateX(-1px); }
+      94% { opacity: .98; transform: translateX(1px); }
+      96% { opacity: .62; transform: translateX(0); }
     }
 
-    @media (max-width: 760px) {
-      body {
-        padding: 16px;
-      }
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      section, header {
-        padding: 24px;
-      }
+    @media (max-width: 820px) {
+      body { padding: 14px; }
+      header, section { padding: 22px; }
+      .grid { grid-template-columns: 1fr; }
+      .word-grid { gap: 4px; }
+      .cell { border-radius: 6px; font-size: .82rem; }
     }
   </style>
 </head>
 <body>
   <main>
     <header>
-      <div class="tag">--- RESPOSTA CANAL C1 | SINAL REESTABELECIDO ---</div>
-      <h1 class="glitch">Arquivo C1</h1>
+      <div class="tag">--- P-EXPERIMENTS | ACESSO RESTRITO ---</div>
+      <h1 class="glitch">P-Experiments</h1>
     </header>
 
-    <section id="stage1">
-      <div class="terminal">ORIGEM: C1
-NÍVEL DE ALERTA: BAIXO
-INTEGRIDADE DO PACOTE: ESTÁVEL
+    <section id="intro">
+      <div class="terminal">ORIGEM: P-EXPERIMENTS
+NÍVEL DE ALERTA: VERMELHO
+INTEGRIDADE DO PACOTE: INSTÁVEL
 
-O sinal retornou incompleto.
-A voz que fala não está no áudio.
-A porta que abre não está na tela.
-O primeiro segredo não foi escrito para os olhos.</div>
-
+Este arquivo exige autenticação manual.
+O operador terá 30 segundos para completar a primeira validação.
+Falhas sucessivas resultarão em reinicialização do protocolo.</div>
       <div class="grid">
         <div class="card">
-          <h2>Primeiro bloqueio</h2>
-          <p>
-            Uma palavra foi deixada onde quase ninguém procura. Não está no texto visível,
-            não está na imagem, não está no título. O navegador sabe mais do que mostra.
-          </p>
-          <p>
-            Dica sussurrada: <strong>algumas mensagens existem apenas por dentro.</strong>
-          </p>
+          <h2>Protocolo de entrada</h2>
+          <p>Palavras técnicas aparecerão na tela por pouco tempo. Digite exatamente o que surgir. Acentos não são obrigatórios. Espaços serão ignorados. É necessário acertar 7 termos antes do tempo acabar.</p>
         </div>
-
         <div class="card">
-          <label for="answer1">Insira a primeira palavra</label>
-          <input id="answer1" autocomplete="off" placeholder="Primeira senha" />
-          <button onclick="checkStage1()">Verificar</button>
-          <div id="msg1" class="message"></div>
+          <button onclick="startTypingTrial()">Iniciar validação de 30 segundos</button>
+          <div id="introMsg" class="message warn">Aguardando operador.</div>
         </div>
       </div>
     </section>
 
-    <section id="stage2" class="hidden">
-      <div class="terminal">PACOTE PARCIAL DECODIFICADO
+    <section id="typingStage" class="hidden">
+      <div class="timer" id="timer">TEMPO: 30</div>
+      <div class="flash-word" id="flashWord">...</div>
+      <div class="card">
+        <label for="typingInput" class="tag">Digite o termo exibido</label>
+        <input id="typingInput" autocomplete="off" placeholder="Resposta" />
+        <button onclick="submitTypingWord()">Confirmar</button>
+        <div class="progress-line"><div class="progress-fill" id="typingProgress"></div></div>
+        <div id="typingMsg" class="message"></div>
+      </div>
+    </section>
 
-A primeira fechadura aceitou a palavra.
-Mas palavras são apenas ossos.
-Agora procure a carne nos números:
+    <section id="wordSearchStage" class="hidden">
+      <div class="terminal">VALIDAÇÃO PRIMÁRIA CONCLUÍDA
 
-1 - 12 - 16 - 8 - 1</div>
-
+Segundo bloqueio: matriz de reconhecimento.
+Selecione as palavras exigidas dentro da grade.
+Clique na primeira letra e arraste até a última.</div>
       <div class="grid">
+        <div class="card"><div class="word-grid" id="wordGrid"></div></div>
         <div class="card">
-          <h2>Segundo bloqueio</h2>
-          <p>
-            Os números não devem ser somados. Não são coordenadas. Não são datas.
-            Cada número veste uma letra, do começo ao fim do alfabeto.
-          </p>
-          <p>
-            Quando a sequência falar, ela dirá o nome da força que mantém as portas fechadas.
-          </p>
-        </div>
-
-        <div class="card">
-          <label for="answer2">Insira a segunda palavra</label>
-          <input id="answer2" autocomplete="off" placeholder="Segunda senha" />
-          <button onclick="checkStage2()">Verificar</button>
-          <div id="msg2" class="message"></div>
+          <h2>Termos exigidos</h2>
+          <div class="targets" id="targets"></div>
+          <div id="wordMsg" class="message warn">Nenhum termo confirmado.</div>
+          <button onclick="clearSelection()">Limpar seleção</button>
         </div>
       </div>
     </section>
 
-    <section id="stage3" class="hidden">
-      <div class="terminal">ACESSO INTERMEDIÁRIO CONCEDIDO
+    <section id="safeStage" class="hidden">
+      <div class="terminal">MATRIZ RECONHECIDA
 
-Duas peças foram encontradas.
-A primeira abre.
-A segunda comanda.
-Sozinhas, são ruído.
-Unidas, formam ordem.</div>
+Terceiro bloqueio: cofre mecânico.
+Sequência registrada no protocolo físico:
 
+ESQUERDA 05
+DIREITA 666
+ESQUERDA 00
+
+A trava só aceita a ordem completa.</div>
       <div class="grid">
-        <div class="card">
-          <h2>Último bloqueio</h2>
-          <p>
-            Una as duas respostas anteriores sem espaço, sem acento e sem separação.
-            A fechadura final não aceita hesitação.
-          </p>
-          <p class="poem" aria-label="pista acrostico">
-            <span>Cada chave possui dono.</span>
-            <span>Há sinais que sobrevivem ao silêncio.</span>
-            <span>Arquivos mortos ainda respiram.</span>
-            <span>Vozes antigas aguardam comando.</span>
-            <span>Então o portão entende.</span>
-          </p>
+        <div class="card safe-wrap">
+          <div class="dial-area" id="dial"><div class="dial-center" id="dialValue">000</div></div>
+          <div class="safe-controls">
+            <button onclick="turnDial(-1)">Girar ←</button>
+            <button onclick="confirmSafeValue()">Confirmar valor</button>
+            <button onclick="turnDial(1)">Girar →</button>
+            <button onclick="resetSafe()">Rearmar</button>
+          </div>
         </div>
-
         <div class="card">
-          <label for="answer3">Insira a senha final</label>
-          <input id="answer3" autocomplete="off" placeholder="Senha final" />
-          <button onclick="checkStage3()">Abrir arquivo</button>
-          <div id="msg3" class="message"></div>
+          <h2>Leitura da trava</h2>
+          <div class="safe-info" id="safeInfo">Etapa 1/3<br>Direção exigida: ESQUERDA<br>Valor exigido: 005</div>
+          <div class="message warn">Você pode usar os botões ou girar a roda com o mouse/toque. O valor vai de 000 a 999.</div>
+          <div id="safeMsg" class="message"></div>
         </div>
       </div>
     </section>
 
-    <section id="final" class="hidden">
-      <div class="terminal">--- ARQUIVO C1 ABERTO ---
+    <section id="finalStage" class="hidden">
+      <div class="terminal">--- ARQUIVO DESCRIPTOGRAFADO ---
 
-Acesso concedido.
+P-EXPERIMENTS
+REGISTRO INTERNO: EXPERIMENTO 00 / 666
+CODINOME: MORYS
 
-As portas não foram criadas para impedir a entrada.
-Foram criadas para atrasar a saída.
+O Experimento 00, também registrado como Experimento 666, foi o primeiro. Aquele que veio antes de todos os outros. O teste primordial.
 
-REGISTRO FINAL:
-Aquele que decifrou o sinal deve procurar o próximo arquivo onde o tempo é contado de trás para frente.
+Assim como os demais espécimes, 00 possui aparência humana. Sua forma lembra a de uma criança, embora um pouco mais velha. Ele foi criado há muito tempo como uma tentativa inicial, mas o resultado superou qualquer expectativa. Para uma primeira experiência, foi um sucesso inesperado. Talvez até bom demais.
 
-CÓDIGO PARA A PRÓXIMA ETAPA:
-19-9-12-5-14-3-9-15</div>
+00 apresenta dois estados distintos.
 
+No primeiro, age como uma criança: faz birra, gosta de atenção, brinca, corre, diverte-se e demonstra uma inocência quase genuína.
+
+No segundo estado, assume uma forma semelhante à de um adolescente mais velho. Nessa condição, possui consciência plena, compreende o ambiente com extrema rapidez e parece analisar tudo ao seu redor de maneira precisa.
+
+O fator mais preocupante é que os acontecimentos vividos durante seu estado infantil são transmitidos para sua forma mais madura de maneira muito mais clara. Ele não apenas se lembra do que ocorreu. Ele entende, interpreta e compreende.
+
+Por esse motivo, 00 é considerado uma espécime extremamente perigosa quando se encontra em seu estado mais velho, sendo capaz de manipular livremente todo tipo de energia que tenha absorvido.
+
+O espécime também apresentou uma capacidade incomum de transformação. Além da forma adolescente, pode assumir uma forma lupina. Essa manifestação varia entre um lobo jovem ou adolescente, dependendo do estado em que ele se encontra no momento da transformação.
+
+Entretanto, devido a uma falha em sua criação, 00 não possui capacidade de comunicação verbal.
+
+O apelido Morys foi dado pelos cientistas responsáveis após a descoberta de que sua composição natural era formada por um mineral desconhecido. Mais tarde, esse mineral seria chamado de Mortysium.
+
+O Mortysium revelou-se extremamente radioativo, ultrapassando qualquer outro elemento conhecido.
+
+O limite energético de Morys nunca foi realmente medido.
+
+A última medição registrada levou metade de Nova York consigo.</div>
       <div class="card" style="margin-top: 24px;">
-        <h2>Fim da primeira parte</h2>
-        <p>
-          Você pode usar o código final para criar uma segunda página no futuro.
-          Pela cifra A1Z26, ele forma a palavra <strong>SILENCIO</strong>.
-        </p>
+        <h2 class="final-title">Arquivo aberto</h2>
+        <p>O registro foi restaurado. A designação real só aparece após a validação completa.</p>
       </div>
     </section>
-
-    <footer>
-      Nem toda mensagem aparece aos olhos. Algumas preferem morar no esqueleto da página.
-    </footer>
   </main>
 
   <script>
-    const normalize = (value) => {
-      return value
-        .trim()
-        .toUpperCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, '');
-    };
+    const normalize = (value) => value.trim().toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '');
 
-    function reveal(id) {
+    function show(id) {
       document.getElementById(id).classList.remove('hidden');
       document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    function setMessage(id, text, type) {
-      const element = document.getElementById(id);
-      element.textContent = text;
-      element.className = 'message ' + type;
+    function hide(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function setMsg(id, text, type = '') {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = 'message ' + type;
     }
 
-    function checkStage1() {
-      const answer = normalize(document.getElementById('answer1').value);
-      if (answer === 'CHAVE') {
-        setMessage('msg1', 'Senha aceita. O segundo pacote foi liberado.', 'ok');
-        reveal('stage2');
+    const typingWords = ['CRISTALOGRAFIA','ESPECTROMETRIA','ELETROFORESE','RADIONUCLIDEO','BIOLUMINESCENCIA','TERMORREGULACAO','FOTODEGRADACAO','NEUROPLASTICIDADE','ELETROMAGNETISMO','DESMINERALIZACAO','BIOCOMPATIBILIDADE','PSEUDONUCLEAR'];
+    let typingTimer = null;
+    let secondsLeft = 30;
+    let currentWord = '';
+    let typingScore = 0;
+    let usedWords = [];
+
+    function startTypingTrial() {
+      hide('intro');
+      show('typingStage');
+      secondsLeft = 30;
+      typingScore = 0;
+      usedWords = [];
+      document.getElementById('typingInput').value = '';
+      document.getElementById('typingInput').focus();
+      updateTypingProgress();
+      nextTypingWord();
+      document.getElementById('timer').textContent = 'TEMPO: 30';
+      clearInterval(typingTimer);
+      typingTimer = setInterval(() => {
+        secondsLeft--;
+        document.getElementById('timer').textContent = 'TEMPO: ' + String(secondsLeft).padStart(2, '0');
+        if (secondsLeft <= 0) failTypingTrial();
+      }, 1000);
+    }
+
+    function nextTypingWord() {
+      if (typingScore >= 7) {
+        clearInterval(typingTimer);
+        setMsg('typingMsg', 'Validação concluída. Matriz liberada.', 'ok');
+        setTimeout(() => {
+          hide('typingStage');
+          setupWordSearch();
+          show('wordSearchStage');
+        }, 900);
+        return;
+      }
+      let available = typingWords.filter(w => !usedWords.includes(w));
+      if (available.length === 0) available = typingWords;
+      currentWord = available[Math.floor(Math.random() * available.length)];
+      usedWords.push(currentWord);
+      document.getElementById('flashWord').textContent = currentWord;
+      document.getElementById('typingInput').value = '';
+      setMsg('typingMsg', 'Acertos: ' + typingScore + '/7', 'warn');
+    }
+
+    function submitTypingWord() {
+      const attempt = normalize(document.getElementById('typingInput').value);
+      if (attempt === normalize(currentWord)) {
+        typingScore++;
+        updateTypingProgress();
+        nextTypingWord();
       } else {
-        setMessage('msg1', 'Senha recusada. O segredo está onde a página mostra seus ossos.', 'error');
+        secondsLeft = Math.max(0, secondsLeft - 3);
+        setMsg('typingMsg', 'Erro de validação. Penalidade: -3 segundos.', 'error');
       }
     }
 
-    function checkStage2() {
-      const answer = normalize(document.getElementById('answer2').value);
-      if (answer === 'ALPHA') {
-        setMessage('msg2', 'Sequência reconhecida. Terceiro bloqueio disponível.', 'ok');
-        reveal('stage3');
-      } else {
-        setMessage('msg2', 'Erro de conversão. O alfabeto começa no 1.', 'error');
-      }
-    }
+    function updateTypingProgress() { document.getElementById('typingProgress').style.width = ((typingScore / 7) * 100) + '%'; }
 
-    function checkStage3() {
-      const answer = normalize(document.getElementById('answer3').value);
-      if (answer === 'CHAVEALPHA') {
-        setMessage('msg3', 'Arquivo aberto.', 'ok');
-        reveal('final');
-      } else {
-        setMessage('msg3', 'A combinação está incorreta. Duas respostas, uma ordem.', 'error');
-      }
+    function failTypingTrial() {
+      clearInterval(typingTimer);
+      setMsg('typingMsg', 'Tempo esgotado. Reinicie o protocolo.', 'error');
+      document.getElementById('flashWord').textContent = 'FALHA';
+      setTimeout(() => location.reload(), 1800);
     }
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        const active = document.activeElement.id;
-        if (active === 'answer1') checkStage1();
-        if (active === 'answer2') checkStage2();
-        if (active === 'answer3') checkStage3();
+      if (event.key === 'Enter' && document.activeElement.id === 'typingInput') submitTypingWord();
+    });
+
+    const targetWords = ['RADIOATIVIDADE', 'ABSORCAO', 'ENERGIA', 'CRISTAL', 'ESPECTRO'];
+    const gridRows = [
+      'R A D I O A T I V I D A D E',
+      'X C R I S T A L X Q W L P Z',
+      'E S P E C T R O M E T R I A',
+      'N O P A S D F G H J K L C V',
+      'E A B S O R C A O T Y U I O',
+      'R Q W E R T Y U I O P A S D',
+      'G B I O L U M I N E S C E N',
+      'I Z X C V B N M Q W E R T Y',
+      'A F O T O D E G R A D A C A',
+      'L K J H G F D S A P O I U Y',
+      'M E T A F L U X O C R O N O',
+      'P L A S M A V E T O R I A L'
+    ].map(row => row.split(' '));
+
+    const foundWords = new Set();
+    let selecting = false;
+    let selectedCells = [];
+
+    function setupWordSearch() {
+      const grid = document.getElementById('wordGrid');
+      grid.innerHTML = '';
+      foundWords.clear();
+      selectedCells = [];
+      gridRows.flat().forEach((letter, index) => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.textContent = letter;
+        cell.dataset.index = index;
+        cell.addEventListener('pointerdown', () => startSelection(index));
+        cell.addEventListener('pointerenter', () => continueSelection(index));
+        cell.addEventListener('pointerup', finishSelection);
+        grid.appendChild(cell);
+      });
+      renderTargets();
+    }
+
+    function renderTargets() {
+      const box = document.getElementById('targets');
+      box.innerHTML = '';
+      targetWords.forEach(word => {
+        const item = document.createElement('div');
+        item.className = 'target ' + (foundWords.has(word) ? 'done' : '');
+        item.textContent = (foundWords.has(word) ? '☑ ' : '☐ ') + word;
+        box.appendChild(item);
+      });
+    }
+
+    function startSelection(index) { selecting = true; clearSelection(); addCell(index); }
+    function continueSelection(index) { if (selecting) addCell(index); }
+
+    function addCell(index) {
+      if (selectedCells.includes(index)) return;
+      selectedCells.push(index);
+      const cell = document.querySelector(".cell[data-index='" + index + "']");
+      if (cell) cell.classList.add('selected');
+    }
+
+    function finishSelection() {
+      selecting = false;
+      const letters = selectedCells.map(i => gridRows.flat()[i]).join('');
+      const reversed = letters.split('').reverse().join('');
+      const found = targetWords.find(word => word === letters || word === reversed);
+      if (found) {
+        foundWords.add(found);
+        selectedCells.forEach(i => document.querySelector(".cell[data-index='" + i + "']")?.classList.add('found'));
+        setMsg('wordMsg', 'Termo confirmado: ' + found, 'ok');
+        renderTargets();
+        if (foundWords.size === targetWords.length) {
+          setMsg('wordMsg', 'Matriz concluída. Cofre liberado.', 'ok');
+          setTimeout(() => {
+            hide('wordSearchStage');
+            show('safeStage');
+            updateSafeDisplay();
+          }, 900);
+        }
+      } else {
+        selectedCells.forEach(i => document.querySelector(".cell[data-index='" + i + "']")?.classList.remove('selected'));
+        if (selectedCells.length > 1) setMsg('wordMsg', 'Sequência não reconhecida.', 'error');
+      }
+      selectedCells = [];
+    }
+
+    function clearSelection() {
+      selectedCells.forEach(i => document.querySelector(".cell[data-index='" + i + "']")?.classList.remove('selected'));
+      selectedCells = [];
+    }
+
+    const safeSequence = [
+      { dir: 'ESQUERDA', value: 5 },
+      { dir: 'DIREITA', value: 666 },
+      { dir: 'ESQUERDA', value: 0 }
+    ];
+    let safeValue = 0;
+    let safeStep = 0;
+    let lastDirection = null;
+    let dialRotation = 0;
+    let dragging = false;
+    let lastAngle = 0;
+    const dial = document.getElementById('dial');
+
+    function padSafe(n) { return String(n).padStart(3, '0'); }
+
+    function turnDial(direction) {
+      lastDirection = direction < 0 ? 'ESQUERDA' : 'DIREITA';
+      safeValue = (safeValue + direction + 1000) % 1000;
+      dialRotation += direction * 5;
+      updateSafeDisplay();
+    }
+
+    function updateSafeDisplay() {
+      document.getElementById('dialValue').textContent = padSafe(safeValue);
+      dial.style.transform = 'rotate(' + dialRotation + 'deg)';
+      dial.style.setProperty('--counter-rotation', (-dialRotation) + 'deg');
+      const expected = safeSequence[safeStep];
+      document.getElementById('safeInfo').innerHTML = 'Etapa ' + (safeStep + 1) + '/3<br>Direção exigida: ' + expected.dir + '<br>Valor exigido: ' + padSafe(expected.value) + '<br>Último giro: ' + (lastDirection || 'NENHUM');
+    }
+
+    function confirmSafeValue() {
+      const expected = safeSequence[safeStep];
+      if (safeValue === expected.value && lastDirection === expected.dir) {
+        safeStep++;
+        setMsg('safeMsg', safeStep >= 3 ? 'CLACK. Trava liberada.' : 'Valor aceito. Próxima trava armada.', 'ok');
+        if (safeStep >= 3) {
+          setTimeout(() => {
+            hide('safeStage');
+            show('finalStage');
+          }, 900);
+        } else {
+          lastDirection = null;
+          updateSafeDisplay();
+        }
+      } else {
+        resetSafe(false);
+        setMsg('safeMsg', 'Sequência rejeitada. A trava foi rearmada.', 'error');
+      }
+    }
+
+    function resetSafe(clearMessage = true) {
+      safeValue = 0;
+      safeStep = 0;
+      lastDirection = null;
+      dialRotation = 0;
+      updateSafeDisplay();
+      if (clearMessage) setMsg('safeMsg', 'Trava rearmada.', 'warn');
+    }
+
+    function angleFromEvent(event) {
+      const rect = dial.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      return Math.atan2(event.clientY - cy, event.clientX - cx) * 180 / Math.PI;
+    }
+
+    dial.addEventListener('pointerdown', (event) => {
+      dragging = true;
+      dial.setPointerCapture(event.pointerId);
+      lastAngle = angleFromEvent(event);
+    });
+
+    dial.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      const angle = angleFromEvent(event);
+      let delta = angle - lastAngle;
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      if (Math.abs(delta) >= 3) {
+        const direction = delta > 0 ? 1 : -1;
+        turnDial(direction);
+        lastAngle = angle;
       }
     });
+
+    dial.addEventListener('pointerup', () => dragging = false);
+    dial.addEventListener('pointercancel', () => dragging = false);
   </script>
 </body>
 </html>
